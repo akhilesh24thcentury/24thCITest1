@@ -1,7 +1,5 @@
 var express = require('express');
-var app = express();
-var graphqlHTTP = require('express-graphql');
-var { buildSchema } = require('graphql');
+var {graphql, buildSchema } = require('graphql');
 var uc = require('upper-case');
 
 // Construct a schema, using GraphQL schema language
@@ -30,23 +28,26 @@ var root = {
   },
 };
 
+var app = express();
+
+app.get('/hello', function(req, res) {
+  var message = graphql(schema, '{ hello }', root).then((resp) => {   
+	  res.send({resp}); 
+	  });
+});
+
+app.get('/quote', function(req, res) {
+  var message = graphql(schema, '{ quoteOfTheDay }', root).then((resp) => {   
+	  res.send({resp}); 
+	  });
+});
+
 app.get('/', function(req, res) {
-  res.send({
-    "Output": "Hello World! Akhilesh is here in AWS !!"
-  });
+  var message = graphql(schema, '{ rollThreeDice }', root).then((resp) => {   
+	  res.send({resp}); 
+	  });
 });
 
-app.post('/', function(req, res) {
-  res.send({
-    "Output": "Hello World!"
-  });
-});
-
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: root,
-  graphiql: true,
-}));
 
 //app.listen(4000);
 //console.log('Running a GraphQL API server at localhost:4000/graphql');
