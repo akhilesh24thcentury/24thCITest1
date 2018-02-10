@@ -5,6 +5,9 @@
     "private": true,
     "dependencies": {
         "express": "latest",
-        "aws-serverless-express": "latest"
+        "aws-serverless-express": "latest",
+        "express-graphql": "latest",
+        "graphql": "latest",
+        "upper-case": "latest"
     }
 }
